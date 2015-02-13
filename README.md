@@ -1,5 +1,6 @@
 # codingame
-My solutions for http://www.codingame.com/ chalanges
+Solutions for http://www.codingame.com/ chalanges.
+My profile [MerlinDS](http://www.codingame.com/profile/1d6763668135ec8b9d82efb267363cd2939595)
 
 # C++
 
