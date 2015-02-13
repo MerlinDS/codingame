@@ -26,8 +26,11 @@ private:
 		vector<Link*> links;
 		int width;
 	};
+	vector<int> gateways;
 	map<int, Node*> network;
 	Node* getNode(int const);
 	inline Node* getNeighbor(Node* const, int);
 	void clearNodes();
+	Link* findGatewayLink(int, int, int&);
+	bool isGatewayNeighbor(int, int);
 };
