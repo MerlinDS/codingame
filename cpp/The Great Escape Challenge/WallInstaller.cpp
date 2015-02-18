@@ -9,6 +9,12 @@ WallInstaller::WallInstaller(int w, int h) :
 
 WallInstaller::~WallInstaller(){}
 
+string WallInstaller::buildFor(int myId, int enemyId, const vector<Player*>* p)
+{
+	this->myId = myId;
+	return this->buildFor(enemyId, p);
+}
+
 string WallInstaller::buildFor(int playerId, const vector<Player*>* players)
 {
 	//init
@@ -147,7 +153,6 @@ bool WallInstaller::isWallValid(Wall* wall)
 	//previos methods can not create one of the wall segment
 	if (wall->s0.x + wall->s0.y < 0
 		|| wall->s1.x + wall->s1.y < 0)return false;
-	//TODO validate for path blockind
 	//add virtual wall to walls
 	this->addSegment(&wall->s0);
 	this->addSegment(&wall->s1);
@@ -211,8 +216,17 @@ bool WallInstaller::isOdd(Point& from, Point& to) const
 	auto v = to - from;
 	v.reverse();
 	v = v * to;
-	return static_cast<int>(v.x) % 2 
-		+ static_cast<int>(v.y) % 2 == 0;
+
+	auto c = v.x == 0 ? WallBuilder::height / 2 : WallBuilder::width / 2;
+	if (v.length() == c)
+	{
+		auto me = this->players->at(this->myId);
+		auto* p = me->getPosition();
+		if (v.x == 0)return p->y > from.y;
+		else return p->x > from.x;
+	}
+	else if (v.length() > c)return false;
+	else /*v.length() < c*/return true;
 }
 
 PathFinder::DIR WallInstaller::getDirection(

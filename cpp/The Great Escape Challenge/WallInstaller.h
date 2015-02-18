@@ -10,6 +10,7 @@ class WallInstaller :
 public:
 	WallInstaller(int, int);
 	~WallInstaller();
+	string buildFor(int, int, const vector<Player*>*);
 	string buildFor(int, const vector<Player*>*);
 
 private:
@@ -23,6 +24,7 @@ private:
 	const vector<Point>* path;
 	const vector<Player*>* players;
 	//
+	int myId;
 	int pathIndex;
 	Point position;//Current position for wall creating
 	void clearData();//For current user//executte after buildFor result!!!!

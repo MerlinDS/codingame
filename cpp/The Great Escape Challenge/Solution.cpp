@@ -48,7 +48,7 @@ string Solution::playerAction()
 			players->push_back( Point( *this->players[i]->getPosition() ) );
 		//get path
 		auto* installer = static_cast<WallInstaller*>(this->wallBuilder);
-		action = installer->buildFor(closeToFinish, &this->players);
+		action = installer->buildFor(this->myId, closeToFinish, &this->players);
 	}
 	if (action == "NONE")
 		action = player->getNextStep();
@@ -57,7 +57,7 @@ string Solution::playerAction()
 
 void Solution::calculatePath()
 {
-	for (auto i = 0; i < this->playerCount; ++i)
+	for (auto i = 0; i < this->players.size(); ++i)
 	{
 		auto player = this->players.at(i);
 		if (!player->isPlaying())continue;
