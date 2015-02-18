@@ -60,8 +60,8 @@ WallInstaller::Wall* WallInstaller::createWall()
 	Wall* wall = nullptr;
 	auto from = this->position;
 	auto to = this->path->at(this->pathIndex);
-	auto next = this->path->size() <= this->pathIndex ?
-		this->path->at(this->pathIndex + 1) : Point();
+	auto next = this->path->size() > this->pathIndex + 1?
+		this->path->at(this->pathIndex + 1) : Point(-1, -1);
 
 	auto dir = this->getDirection(from, to);
 	//do not build the wall if other case
@@ -70,11 +70,17 @@ WallInstaller::Wall* WallInstaller::createWall()
 		//get first segment
 		auto s0 = this->getSegmentBetween(from, to);
 		//No need for segment validation: path cannot lay through the wall
-		auto s1 = dir == player->getFinishEdge() ?
-			this->finishWall(s0, from, to) :
-			this->finishWall(s0, from, to, next);
-		//TODO find first segment
-		wall = new Wall{ s0, s1 };
+		if (dir != player->getFinishEdge())
+		{
+			auto v = next - from;
+			if (abs(v.x) - abs(v.y) == 0)
+				wall = new Wall{ s0, this->finishWall(s0, from, to, next) };
+			
+		} else
+		{
+			wall = new Wall{ s0, this->finishWall(s0, from, to) };
+		}
+		
 	}
 	return wall;
 }
