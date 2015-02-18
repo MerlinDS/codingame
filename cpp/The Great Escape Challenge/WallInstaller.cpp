@@ -34,12 +34,12 @@ string WallInstaller::buildFor(int playerId, const vector<Player*>* players)
 		//validate wall for blockind and other issues
 		if (!this->isWallValid(wall))
 		{
-			if (this->path->size() - 1 == this->pathIndex + 1)
+			wall = nullptr;
+			if (this->path->size() == this->pathIndex + 1)
 				break;//path is finished;
 			//go to next position in path
 			this->position = this->path->at(this->pathIndex);
 			this->pathIndex++;
-			wall = nullptr;
 		}
 	}
 
@@ -218,14 +218,14 @@ bool WallInstaller::isOdd(Point& from, Point& to) const
 	v = v * to;
 
 	auto c = v.x == 0 ? WallBuilder::height / 2 : WallBuilder::width / 2;
-	if (v.length() == c)
+	if (abs(v.length()) == c)
 	{
 		auto me = this->players->at(this->myId);
 		auto* p = me->getPosition();
 		if (v.x == 0)return p->y > from.y;
 		else return p->x > from.x;
 	}
-	else if (v.length() > c)return false;
+	else if (abs(v.length()) > c)return false;
 	else /*v.length() < c*/return true;
 }
 

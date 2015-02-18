@@ -70,15 +70,26 @@ void Solution::getEmeny()
 {
 	this->closeToFinish = this->myId;
 	auto* player = this->players.at(this->myId);
-	if (player->pathLength() > 1 + this->myId)
+	if (player->pathLength() > this->myId + 1)
 	{
 		//check only if path has angles	
 		if (player->pathHasAngle())
 			this->getCloser();
-	} else
+	}
+	else
 	{
 		//need check last time befor last step
-		this->getCloser();
+		for (auto i = 0; i < this->players.size(); ++i)
+		{
+			auto p = this->players.at(i);
+			if (p == player || !p->isPlaying())continue;
+
+			if (p->pathLength() == 1)
+			{
+				this->closeToFinish = i;
+				break;
+			}
+		}
 	}
 }
 
