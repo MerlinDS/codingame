@@ -52,7 +52,13 @@ string Solution::playerAction()
 		action = installer->buildFor(this->myId, closeToFinish, &this->players);
 	}
 	if (action == "NONE")
+	{
+		if (player->getDiraction() == player->getStartEdge())
+		{
+			cerr << "Go to bad dir" << endl;
+		}
 		action = player->getNextStep();
+	}
 	return action;
 }
 

@@ -127,9 +127,33 @@ bool Player::isDusturbed()
 		//auto disturb on end of path
 		if (!this->disturbed)
 		{
-			this->disturbed = this->path->size() < this->id + this->enemiesCount;
-		}
 
+			switch (this->id)
+			{
+			case 1:
+				if (this->enemiesCount > 1)
+					//block by center
+					this->disturbed = this->path->size() == 5;
+				else
+					this->disturbed = this->path->size() == 2;
+				break;
+			case 2:
+				//block by center
+				this->disturbed = this->path->size() == 6;
+				break;
+			default:break;
+			}
+		}
 	}
 	return this->disturbed;
+}
+
+PathFinder::DIR Player::getDiraction() const
+{
+	auto p = this->path->at(0) - this->position;
+	if (p.x > 0)return RIGHT;
+	if (p.x < 0)return LEFT;
+	if (p.y > 0)return BOTTOM;
+	if (p.y < 0)return TOP;
+	return LEFT;
 }

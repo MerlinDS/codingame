@@ -22,6 +22,7 @@ public:
 	DIR getFinishEdge() const;
 	bool pathHasAngle() const;
 	bool isDusturbed();
+	DIR getDiraction() const;
 private:
 	int id;
 	int wallsLeft;
