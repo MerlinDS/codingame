@@ -16,7 +16,8 @@ Solution::~Solution()
 void Solution::updatePlayer(int id, int x, int y, int wallsLeft)
 {
 	if (this->players.size() == id){
-		this->players.push_back(new Player(id, this->width, this->height, 
+		this->players.push_back(new Player(id, this->playerCount - 1,
+			this->width, this->height, 
 			this->wallBuilder->getWalls()));
 		cerr << "Player with id = " << id << " was created" << endl;
 	}
@@ -70,39 +71,21 @@ void Solution::getEmeny()
 {
 	this->closeToFinish = this->myId;
 	auto* player = this->players.at(this->myId);
-	if (player->pathLength() > this->myId + 1)
+	if (player->isDusturbed())
 	{
-		//check only if path has angles	
-		if (player->pathHasAngle())
-			this->getCloser();
-	}
-	else
-	{
-		//need check last time befor last step
+		cerr << "I ( id = " << this->myId << " ) was disturb!" << endl;
+		cerr << "I has pass length " << player->pathLength() << endl;
+		auto mpl = player->pathLength();
+		//get enemies
 		for (auto i = 0; i < this->players.size(); ++i)
 		{
 			auto p = this->players.at(i);
 			if (p == player || !p->isPlaying())continue;
-
-			if (p->pathLength() == 1)
-			{
+			if (mpl > p->pathLength()){
+				mpl = p->pathLength();
 				this->closeToFinish = i;
-				break;
+				cerr << "My enemy: " << i << " has path length " << p->pathLength() << endl;
 			}
-		}
-	}
-}
-
-void Solution::getCloser()
-{
-	int mpl = INT_MAX;
-	for (auto i = 0; i < this->players.size(); ++i)
-	{
-		auto* p = this->players.at(i);
-		if (!p->isPlaying())continue;
-		if (mpl > p->pathLength()){
-			mpl = p->pathLength();
-			this->closeToFinish = i;
 		}
 	}
 }

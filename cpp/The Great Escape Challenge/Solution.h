@@ -25,6 +25,5 @@ private:
 	//methods
 	void calculatePath();
 	void getEmeny();
-	void getCloser();
 };
 

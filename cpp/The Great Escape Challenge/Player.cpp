@@ -2,8 +2,8 @@
 #include <iostream>
 
 //========================== Player =================================
-Player::Player(int myId, int w, int h, const vector<Point*>* walls) :
-	PathFinder(w, h, walls), id(myId)
+Player::Player(int myId, int enemiesCount, int w, int h, const vector<Point*>* walls) :
+	PathFinder(w, h, walls), id(myId), enemiesCount(enemiesCount)
 {
 	//get start Edge for player
 	this->startEdge = id == 0 ? LEFT : id == 1 ? RIGHT : TOP;
@@ -110,11 +110,26 @@ PathFinder::DIR Player::getFinishEdge() const
 bool Player::pathHasAngle() const
 {
 	if (this->path->size() < 2)return false;
-	auto p = this->path->at(0) - this->path->at(1);
-	for (auto i = 1; i < this->path->size() - 1; ++i)
+	auto p = Point(this->position) - this->path->at(0);
+	for (auto i = 0; i < this->path->size() - 1; ++i)
 	{
 		auto v = this->path->at(i) - this->path->at(i + 1);
 		if (v.x != p.x || v.y != p.y)return true;
 	}
 	return false;
+}
+
+bool Player::isDusturbed()
+{
+	if (!this->disturbed && this->path->size() >  0)
+	{
+		this->disturbed = this->pathHasAngle();
+		//auto disturb on end of path
+		if (!this->disturbed)
+		{
+			this->disturbed = this->path->size() < this->id + this->enemiesCount;
+		}
+
+	}
+	return this->disturbed;
 }
