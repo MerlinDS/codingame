@@ -14,6 +14,7 @@ My profile [MerlinDS](http://www.codingame.com/profile/1d6763668135ec8b9d82efb26
 * [Telephone Numbers](https://github.com/MerlinDS/codingame/blob/master/cpp/Telephone-Numbers/solution.cpp)
 * [Winamax Sponsored Challenge](https://github.com/MerlinDS/codingame/blob/master/cpp/Winamax-Sponsored-Challenge/solution.cpp)
 * [Skynet: the Virus](https://github.com/MerlinDS/codingame/tree/master/cpp/Skynet-the-Virus)
+* [Don't Panic - Level 1 - Training](https://github.com/MerlinDS/codingame/tree/master/cpp)
 
 ## CONTESTS
 
