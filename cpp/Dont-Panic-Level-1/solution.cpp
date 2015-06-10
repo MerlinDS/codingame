@@ -80,14 +80,12 @@ int main()
 
 string turnAction(Level& level, Turn& turn)
 {
-    cerr << "Turn" << " Floor " << turn.cloneFloor << endl;
     Floor floor = level.floors[turn.cloneFloor];
     bool block = floor.blockPosition == turn.clonePos;
     if(!block){
         dir v = floor.exitPos - floor.startPos > 0 ? dir::RIGHT : dir::LEFT;
         block = v != turn.direction;
     }
-    cerr << level.floors.size() << endl;
     return block ? "BLOCK" : "WAIT";
 }
 
@@ -102,7 +100,6 @@ void findBlockPoints(Level& level)
         if(i > 0)//find all start positions
             floor->startPos = level.floors[i - 1].exitPos;
         
-        cerr << i << " start = " << floor->startPos << " exit = " << floor->exitPos << endl;
         int v = floor->exitPos - floor->startPos > 0 ? 1 : -1;
         floor->blockPosition = floor->exitPos + v;
         cerr << "block position = " << floor->blockPosition << endl;
